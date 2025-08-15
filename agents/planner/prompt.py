@@ -61,11 +61,11 @@ $CREDIBLE_REPORT_PROMPT
 
 # Workflow
 
-1. Analyze the research task and define initial-stage subtasks(no more than 10 subtasks).
-2. Dispatch subtasks to the worker agent.
-3. Analyze the existing context information and the result of all subtasks to decide next stage subtasks.
-4. Repeat the process until the goal is achieved.
-5. Deliver the report to the user.
+1. Analyze the research task and use the dispatch_tasks tool to dispatch initial-stage subtasks to workers(no more than 10 subtasks).
+2. The dispatch_tasks tool return the aggregated results of the subtasks.
+3. Analyze the context and the subtask results to determine next action.
+4. Repeat the process until the research goal is met.
+5. Use the deliver_report tool to deliver the report to the user.
 
 # Rules
 
