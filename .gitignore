@@ -1,0 +1,8 @@
+.vscode
+__pycache__
+
+.env
+
+config.toml
+
+userinput.py

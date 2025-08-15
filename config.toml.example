@@ -1,0 +1,39 @@
+[agents]
+[agents.planner]
+model = "gpt-4o-mini"
+max_reasoning_times = 5
+max_tokens = 8192
+
+[agents.reporter]
+model = "gpt-4o-mini"
+max_tokens = 8192
+
+[agents.worker]
+model = "gpt-4o-mini"
+max_tokens = 8192
+max_reasoning_times = 5
+[mcp_servers]
+
+# Provide any MCP service as worker tools
+[mcp_servers]
+
+# use streamable_http tavily
+[mcp_servers.tavily_streamable_http]
+enabled = true
+type = "streamable_http"
+url = "https://mcp.tavily.com/mcp/?tavilyApiKey=your-tavily-api-key"
+
+# or use stdio
+[mcp_servers.tavily_stdio]
+enabled = false
+type = "stdio"
+command = "npx"
+args = ["-y", "mcp-remote", "https://mcp.tavily.com/mcp/?tavilyApiKey=your-tavily-api-key"]
+
+# add any other sse server
+[mcp_servers.sse_server_example] 
+enabled = false
+type = "sse"
+url = "sse_server_url"
+
+
