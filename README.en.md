@@ -19,7 +19,7 @@ A simple, direct, and highly scalable deep research tool based on multi-agent ar
 - 🌐 **Simple and Intuitive**: Exposes both HTTP and MCP interfaces with clean APIs for easy integration.
 - ⚡ **High-Performance Async**: Built on FastAPI, supports high-concurrency request processing.
 
-## Architecture
+## How It Works
 
 ```mermaid
 flowchart TD
@@ -42,6 +42,16 @@ flowchart TD
 
     AgentSystem --> Report(["Report"])
 ```
+
+The general workflow is as follows:
+
+1. The user submits a research task to the system.
+2. The planner analyzes the task and dispatches initial-stage subtasks to workers(no more than 10 subtasks).
+3. Workers execute the subtasks in parallel.
+4. Results from subtasks are aggregated and passed to the planner.
+5. The planner analyzes the context and the subtask results to determine next action.
+6. This process repeats until the research goal is met.
+7. The system delivers the final report to the user.
 
 ## 🚀 Quick Start
 
