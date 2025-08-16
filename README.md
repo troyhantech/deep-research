@@ -6,7 +6,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.10+-green.svg)](https://python.org)
 ![Fast](https://img.shields.io/badge/fast-HTTP_&_MCP-g.svg)
 
-[中文](README.md) | [English](README.en.md)
+中文 | [English](README.en.md)
 
 </div>
 
