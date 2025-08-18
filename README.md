@@ -126,7 +126,7 @@ model = "gpt-4o"
 max_tokens = 4096
 max_reasoning_times = 5
 
-# 提供任何 MCP 服务作为 woker 的工具
+# 支持三种标准 MCP 传输方式：streamable_http、stdio 或 sse。根据需要配置任意 MCP 服务。
 [mcp_servers]
 
 # 使用 streamable_http 方式调用 tavily

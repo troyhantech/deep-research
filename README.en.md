@@ -126,7 +126,7 @@ model = "gpt-4o"
 max_tokens = 4096
 max_reasoning_times = 5
 
-# Provide any MCP service as worker tools
+# Support three standard MCP transport as worker tools: streamable_http、stdio or sse.
 [mcp_servers]
 
 # use streamable_http tavily
