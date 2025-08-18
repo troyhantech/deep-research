@@ -164,9 +164,9 @@ Exposed endpoints:
 
 ### HTTP Interface
 
-**POST** `/deep-research`
+Request this interface by HTTP POST, send your research task, wait for a while, and get a comprehensive report.
 
-Send your research task and get a comprehensive report:
+**POST** `/deep-research`
 
 **Request Body:**
 
@@ -196,7 +196,7 @@ curl -X POST "http://localhost:8000/deep-research" \
 >
 > Task should be clear and specific, for example:
 >
-> ```
+> ```txt
 > Research the economic impact of semaglutide on global healthcare systems.
 > Do:
 > - Include specific figures, trends, statistics, and measurable outcomes.

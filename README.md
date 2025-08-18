@@ -164,9 +164,9 @@ python main.py
 
 ### HTTP 接口
 
-**POST** `/deep-research`
+通过 HTTP POST 请求该接口，发送你的调研任务，等待一段时间后，返回一份调研报告。
 
-发送你的调研任务，然后获取一份报告：
+**POST** `/deep-research`
 
 **请求 Body:**
 
@@ -196,7 +196,7 @@ curl -X POST "http://localhost:8000/deep-research" \
 >
 > 调研任务应该清晰具体，例如：
 >
-> ```
+> ```txt
 > 研究司美格鲁肽对全球医疗体系的经济影响。
 > 需完成：
 > - 包含具体数据、趋势、统计指标及可量化结果。
