@@ -235,6 +235,10 @@ A: Supports any model compatible with OpenAI API, including OpenAI GPT series, O
 
 A: No, this project does not depend on the model's Function Call functionality. Any large language model will work.
 
+### Q: Is prompt caching supported?
+
+A: No, prompt caching is not supported. However, most of the models support automatic caching mechanism, and there are enough models support it.
+
 ### Q: How to add custom MCP tools?
 
 A: Add your MCP service configuration in the `[mcp_servers]` section of the `config.toml` file. For example: integrate custom knowledge base search MCP services.
