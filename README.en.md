@@ -172,7 +172,7 @@ Request this interface by HTTP POST, send your research task, wait for a while, 
 
 ```json
 {
-  "task": "Research the latest developments in quantum computing"
+  "task": "Analyze Bitcoin price trends for the next month."
 }
 ```
 
@@ -180,7 +180,7 @@ Request this interface by HTTP POST, send your research task, wait for a while, 
 
 ```json
 {
-  "result": "# Quantum Computing Research Report\n\nQuantum computing has seen significant advancements...\n\n## References\n[1] [Source Title](https://example.com)\n[2] [Another Source](https://example2.com)"
+  "result": "# Bitcoin Price Trends Analysis for the Next Month\n\n## Introduction\n\nThis report provides an analysis of Bitcoin price trends for the next month..."
 }
 ```
 
@@ -189,7 +189,7 @@ Request this interface by HTTP POST, send your research task, wait for a while, 
 ```bash
 curl -X POST "http://localhost:8000/deep-research" \
      -H "Content-Type: application/json" \
-     -d '{"task": "Analyze Bitcoin price trends for the next week."}'
+     -d '{"task": "Analyze Bitcoin price trends for the next month."}'
 ```
 
 > **Usage Tips**

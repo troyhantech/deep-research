@@ -172,7 +172,7 @@ python main.py
 
 ```json
 {
-  "task": "Research the latest developments in quantum computing"
+  "task": "分析未来一个月比特币的价格趋势走向，中文输出"
 }
 ```
 
@@ -180,7 +180,7 @@ python main.py
 
 ```json
 {
-  "result": "# Quantum Computing Research Report\n\nQuantum computing has seen significant advancements...\n\n## References\n[1] [Source Title](https://example.com)\n[2] [Another Source](https://example2.com)"
+  "result": "# 比特币（BTC）未来一个月价格趋势分析\n\n## 引言\n\n本报告旨在对未来一个月（2025 年 8 月 18 日至 2025 年 9 月 17 日）比特币（BTC）的价格趋势进行核心驱动因素分析。通过聚焦市场资金面、技术图表和关键宏观信号，我们力求抓住当前市场的主要矛盾，判断 BTC 在此期间的潜在方向和关键价位。……"
 }
 ```
 
@@ -189,7 +189,7 @@ python main.py
 ```bash
 curl -X POST "http://localhost:8000/deep-research" \
      -H "Content-Type: application/json" \
-     -d '{"task": "分析未来一周比特币的价格趋势走向，中文输出"}'
+     -d '{"task": "分析未来一个月比特币的价格趋势走向，中文输出"}'
 ```
 
 > **使用技巧**
