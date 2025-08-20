@@ -51,8 +51,10 @@ The general workflow is as follows:
 4. Subtasks reports are aggregated and passed to the planner.
 5. The planner analyzes the context and the subtask results to determine next action.
 6. Repeat this process until one of the following conditions is met:
-   a. The Planner deems the information sufficient and proactively generates a report.
-   b. The number of iterations reaches the `max_reasoning_times` configuration, at which point the system forcibly passes the existing information to the Reporter and requests it to generate a report.
+
+   - The Planner deems the information sufficient and proactively generates a report.
+   - The number of iterations reaches the `max_reasoning_times` configuration, at which point the system forcibly passes the existing information to the Reporter and requests it to generate a report.
+
 7. The system delivers the final report to the user.
 
 ## 🚀 Quick Start
