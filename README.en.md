@@ -47,8 +47,8 @@ The general workflow is as follows:
 
 1. The user submits a research task to the system.
 2. The planner analyzes the task and dispatches initial-stage subtasks to workers(no more than 10 subtasks).
-3. Workers execute the subtasks in parallel.
-4. Results from subtasks are aggregated and passed to the planner.
+3. Workers execute the subtasks in parallel, and return the subtask reports.
+4. Subtasks reports are aggregated and passed to the planner.
 5. The planner analyzes the context and the subtask results to determine next action.
 6. This process repeats until the research goal is met.
 7. The system delivers the final report to the user.
