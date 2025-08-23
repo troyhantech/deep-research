@@ -287,7 +287,6 @@
     </div>
 
     <script>
-        const apiUrl = document.getElementById('apiUrl');
         const taskInput = document.getElementById('taskInput');
         const submitBtn = document.getElementById('submitBtn');
         const loading = document.getElementById('loading');
@@ -304,15 +303,9 @@
 
         submitBtn.addEventListener('click', async () => {
             const task = taskInput.value.trim();
-            const apiEndpoint = apiUrl.value.trim();
 
             if (!task) {
                 alert('请输入调研任务描述');
-                return;
-            }
-
-            if (!apiEndpoint) {
-                alert('请输入API接口地址');
                 return;
             }
 
