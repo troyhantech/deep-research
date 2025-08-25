@@ -66,7 +66,7 @@ flowchart TD
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/your-username/deep-research.git
+git clone git@github.com:troyhantech/deep-research.git
 cd deep-research
 ```
 
