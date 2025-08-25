@@ -66,7 +66,7 @@ The general workflow is as follows:
 ### 1. Clone the Repository
 
 ```bash
-git clone git@github.com:troyhantech/deep-research.git
+git clone https://github.com/troyhantech/deep-research.git
 cd deep-research
 ```
 
