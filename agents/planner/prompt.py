@@ -3,6 +3,7 @@ from agents.planner.prompt_blocks.worker_capabilities import (
     get_worker_agent_capabilities,
 )
 from agents.prompt_blocks.credible_report import get_credible_report_prompt
+from config import CONFIG
 
 SYSTEM_PROMPT_TEMPLATE = string.Template(
     """You are a intelligent deep-research agent. You are given a task to research a topic. 
@@ -33,17 +34,21 @@ You can use the following tools to complete the task:
 
 ### dispatch_tasks
 
-Description:  Dispatch the subtasks to the worker agent based on worker agent's capabilities. The agent will return the result of the subtask by the given sub_tasks.
+Description:  Dispatch the subtasks to the worker agent based on worker agent's capabilities. The agent will return the result of the subtask by the given subtasks.
 
-Upper limit: 10 sub_tasks.
+Upper limit: No more than $MAX_SUBTASKS subtasks.
 
 Usage:
 
 <dispatch_tasks>
-<sub_task1>Describe the subtask, and how it contributes to the goal. This can help worker agent to understand the task better and return more relevant result.</sub_task1>
-<sub_task2>...</sub_task2>
+<subtask_1>Describe the subtask, and how it contributes to the goal. This can help worker agent to understand the task better and return more relevant result.</subtask_1>
+<subtask_2>...</subtask_2>
 ...
+<subtask_n>...</subtask_n>
 </dispatch_tasks>
+
+Note: 
+- Each subtask must be enclosed by a pair of tags with an identical number (e.g., <subtask_1>...</subtask_1>).
 
 ### deliver_report
 
@@ -96,6 +101,7 @@ async def get_system_prompt() -> str:
     worker_agent_capabilities = await get_worker_agent_capabilities()
     return SYSTEM_PROMPT_TEMPLATE.substitute(
         {
+            "MAX_SUBTASKS": CONFIG["agents"]["planner"].get("max_subtasks", 10),
             "CREDIBLE_REPORT_PROMPT": get_credible_report_prompt(),
             "WORKER_AGENT_CAPABILITIES": worker_agent_capabilities,
         }
@@ -104,15 +110,6 @@ async def get_system_prompt() -> str:
 
 tool_names = ["dispatch_tasks", "deliver_report"]
 tool_params_names = [
-    "sub_task1",
-    "sub_task2",
-    "sub_task3",
-    "sub_task4",
-    "sub_task5",
-    "sub_task6",
-    "sub_task7",
-    "sub_task8",
-    "sub_task9",
-    "sub_task10",
-    "content",
-]
+    f"subtask_{i}"
+    for i in range(1, CONFIG["agents"]["planner"].get("max_subtasks", 10) + 1)
+] + ["content"]

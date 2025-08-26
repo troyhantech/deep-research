@@ -46,7 +46,7 @@ flowchart TD
 整体工作流程大致如下：
 
 1. 用户提交研究任务到系统。
-2. Planner 分析任务,拆分初始阶段的子任务，并将子任务分配给多个 Worker（最多 10 个子任务）。
+2. Planner 分析任务,拆分初始阶段的子任务，并将子任务分配给多个 Worker（可配置最多 max_subtasks 个子任务）。
 3. 多个 Worker 并行执行子任务，并最终产出一份子任务报告。
 4. 将所有子任务的报告聚合起来，然后返回给 Planner。
 5. Planner 再次分析上下文和子任务结果，决定下一步行动。
@@ -120,6 +120,7 @@ cp config.toml.example config.toml
 model = "gpt-4o"
 max_reasoning_times = 5
 max_tokens = 4096
+max_subtasks = 10
 
 [agents.reporter]
 model = "gpt-4o"

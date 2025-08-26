@@ -46,7 +46,7 @@ flowchart TD
 The general workflow is as follows:
 
 1. The user submits a research task to the system.
-2. The planner analyzes the task and dispatches initial-stage subtasks to workers(no more than 10 subtasks).
+2. The planner analyzes the task and dispatches initial-stage subtasks to workers(config no more than max_subtasks subtasks).
 3. Workers execute the subtasks in parallel, and return the subtask reports.
 4. Subtasks reports are aggregated and passed to the planner.
 5. The planner analyzes the context and the subtask results to determine next action.
@@ -120,6 +120,7 @@ Edit `config.toml` to configure agents and MCP services:
 model = "gpt-4o"
 max_reasoning_times = 5
 max_tokens = 4096
+max_subtasks = 10
 
 [agents.reporter]
 model = "gpt-4o"

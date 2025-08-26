@@ -3,6 +3,7 @@
 model = "gpt-4o-mini"
 max_reasoning_times = 5
 max_tokens = 8192
+max_subtasks = 10
 
 [agents.reporter]
 model = "gpt-4o-mini"
