@@ -26,7 +26,7 @@ async def execute_tool(state: State, tool: ToolUse) -> tuple[ToolExecuteResult, 
 
     tool_execute_result.content = f"""
     {tool_use_title_generator(tool)}
-    {tool_execute_result.content}
+{tool_execute_result.content}
     """
     return tool_execute_result, state_updates
 
