@@ -42,18 +42,18 @@ async def execute_tool_inner(
 
     match tool["name"]:
         case "dispatch_tasks":
-            sub_tasks = []
-            for sub_task_name in tool["params"]:
-                if sub_task_name.startswith("sub_task"):
-                    sub_tasks.append(tool["params"][sub_task_name])
-            if len(sub_tasks) == 0:
+            subtasks = []
+            for subtask_name in tool["params"]:
+                if subtask_name.startswith("subtask"):
+                    subtasks.append(tool["params"][subtask_name])
+            if len(subtasks) == 0:
                 state_updates["status"] = Status.INVALID_TOOL_USE
                 tool_execute_result.content = Response.missingParam(
-                    "dispatch_tasks", ["sub_task_1", "sub_task_2", "..."]
+                    "dispatch_tasks", ["subtask_1", "subtask_2", "..."]
                 )
                 return tool_execute_result, state_updates
             try:
-                workers_result = await call_workers(sub_tasks)
+                workers_result = await call_workers(subtasks)
             except Exception as e:
                 logging.error(f"failed to call workers: {e}")
                 state_updates["status"] = Status.INVALID_TOOL_USE

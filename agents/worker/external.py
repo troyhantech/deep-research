@@ -5,7 +5,7 @@ from config import CONFIG
 
 async def call_worker(task: str) -> str:
     """
-    Call worker to execute sub_task.
+    Call worker to execute subtask.
 
     Return the result of worker.
     """
@@ -24,7 +24,7 @@ async def call_worker(task: str) -> str:
 
 async def call_workers(tasks: list[str]) -> str:
     """
-    Call workers to execute sub_tasks in parallel.
+    Call workers to execute subtasks in parallel.
 
     Return the aggregated result of workers.
     """
