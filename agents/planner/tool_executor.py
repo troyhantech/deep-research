@@ -50,7 +50,7 @@ async def execute_tool_inner(
                 return tool_execute_result, state_updates
 
             subtasks = []
-            subtasks = tool["params"]["subtasks"].split("\n")
+            subtasks = tool["params"]["subtasks"].strip().split("\n")
             subtasks = [subtask.strip() for subtask in subtasks]
 
             try:

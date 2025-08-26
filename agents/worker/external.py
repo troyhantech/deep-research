@@ -29,4 +29,4 @@ async def call_workers(tasks: list[str]) -> str:
     Return the aggregated result of workers.
     """
     workers_result = await asyncio.gather(*[call_worker(task) for task in tasks])
-    return "\n\n".join(workers_result)
+    return "\n====\n".join(workers_result)
