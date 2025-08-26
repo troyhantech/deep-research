@@ -47,14 +47,10 @@ Upper limit: No more than $MAX_SUBTASKS subtasks.
 Usage:
 
 <dispatch_tasks>
-<subtask_1>Describe the subtask, and how it contributes to the goal. This can help worker agent to understand the task better and return more relevant result.</subtask_1>
-<subtask_2>...</subtask_2>
-...
-<subtask_n>...</subtask_n>
+<subtasks>
+You can fill in multiple subtasks, separated by line breaks, with one subtask per line.
+</subtasks>
 </dispatch_tasks>
-
-Note: 
-- Each subtask must be enclosed by a pair of tags with an identical number (e.g., <subtask_1>...</subtask_1>).
 
 ### deliver_report
 
@@ -115,7 +111,4 @@ async def get_system_prompt() -> str:
 
 
 tool_names = ["dispatch_tasks", "deliver_report"]
-tool_params_names = [
-    f"subtask_{i}"
-    for i in range(1, CONFIG["agents"]["planner"].get("max_subtasks", 10) + 1)
-] + ["content"]
+tool_params_names = ["subtasks", "content"]

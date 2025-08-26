@@ -42,16 +42,17 @@ async def execute_tool_inner(
 
     match tool["name"]:
         case "dispatch_tasks":
-            subtasks = []
-            for subtask_name in tool["params"]:
-                if subtask_name.startswith("subtask"):
-                    subtasks.append(tool["params"][subtask_name])
-            if len(subtasks) == 0:
+            if "subtasks" not in tool["params"]:
                 state_updates["status"] = Status.INVALID_TOOL_USE
                 tool_execute_result.content = Response.missingParam(
-                    "dispatch_tasks", ["subtask_1", "subtask_2", "..."]
+                    "dispatch_tasks", ["subtasks"]
                 )
                 return tool_execute_result, state_updates
+
+            subtasks = []
+            subtasks = tool["params"]["subtasks"].split("\n")
+            subtasks = [subtask.strip() for subtask in subtasks]
+
             try:
                 workers_result = await call_workers(subtasks)
             except Exception as e:
