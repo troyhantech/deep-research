@@ -17,7 +17,7 @@ from agents.tool_content_parser import ToolUse
 
 
 def tool_use_title_generator(tool: ToolUse) -> str:
-    return f"[{tool['name']}]"
+    return f"[result for tool {tool['name']}]"
 
 
 async def execute_tool(state: State, tool: ToolUse) -> tuple[ToolExecuteResult, State]:
