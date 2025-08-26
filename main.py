@@ -9,7 +9,9 @@ from pkg.mcp.mcp_hub import mcp_hub
 from config import CONFIG
 from fastapi_mcp import FastApiMCP
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 @asynccontextmanager
@@ -44,8 +46,7 @@ app.include_router(http_router)
 
 @app.get("/web")
 async def read_web():
-    return FileResponse('deep_research_interface.html')
-
+    return FileResponse("deep_research_interface.html")
 
 
 # mcp server
@@ -55,5 +56,12 @@ mcp.mount()
 
 if __name__ == "__main__":
     import uvicorn
+    from uvicorn.config import LOGGING_CONFIG
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    LOGGING_CONFIG["formatters"]["default"][
+        "fmt"
+    ] = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+    LOGGING_CONFIG["formatters"]["access"][
+        "fmt"
+    ] = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+    uvicorn.run(app, host="0.0.0.0", port=8000, log_config=LOGGING_CONFIG)
