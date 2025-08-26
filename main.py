@@ -1,12 +1,12 @@
 from contextlib import asynccontextmanager
 import logging
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from agents.worker.prompt_blocks.mcp_servers import get_mcp_server_description
-from endpoints.http_server import router as http_router
+from endpoints.deep_research import router as deep_research_router
+from endpoints.web import router as web_router
 from pkg.mcp.mcp_hub import mcp_hub
-from config import CONFIG
+from config import CONFIG as _
 from fastapi_mcp import FastApiMCP
 
 logging.basicConfig(
@@ -41,13 +41,8 @@ app.add_middleware(
     allow_headers=["*"],  # 允许所有请求头
 )
 
-app.include_router(http_router)
-
-
-@app.get("/web")
-async def read_web():
-    return FileResponse("deep_research_interface.html")
-
+app.include_router(deep_research_router)
+app.include_router(web_router)
 
 # mcp server
 mcp = FastApiMCP(app, name="DeepResearch")
