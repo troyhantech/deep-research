@@ -116,7 +116,7 @@ async def action_node(state: State) -> State:
 </context>
 """
 
-        report = await generate_report(info, await add_system_info(state["task"]))
+        report = await generate_report(info, state["task"])
         return {"result": report, "status": Status.GENERATE_REPORT}
     return {
         "messages": messages,

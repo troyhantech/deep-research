@@ -76,7 +76,7 @@ async def execute_tool_inner(
 {context}
 </context>"""
 
-            report = await generate_report(info, await add_system_info(state["task"]))
+            report = await generate_report(info, state["task"])
             state_updates["result"] = report
             state_updates["status"] = Status.GENERATE_REPORT
             return tool_execute_result, state_updates
