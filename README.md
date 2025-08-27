@@ -164,8 +164,13 @@ python main.py
 
 - HTTP 服务：`http://localhost:8000`
 - MCP 服务：`http://localhost:8000/mcp`
+- Web 网页：`http://localhost:8000/web`
 
 ## 📖 使用指南
+
+### Web 网页
+
+打开 `http://localhost:8000/web` 即可访问 Web 网页。
 
 ### HTTP 接口
 

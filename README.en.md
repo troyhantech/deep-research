@@ -164,8 +164,13 @@ Exposed endpoints:
 
 - HTTP Service: `http://localhost:8000`
 - MCP Service: `http://localhost:8000/mcp`
+- Web UI: `http://localhost:8000/web`
 
 ## 📖 Usage Guide
+
+### Web UI
+
+Open `http://localhost:8000/web` to access the Web UI.
 
 ### HTTP Interface
 
