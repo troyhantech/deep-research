@@ -24,10 +24,8 @@ def tool_use_title_generator(tool: ToolUse) -> str:
 async def execute_tool(state: State, tool: ToolUse) -> tuple[ToolExecuteResult, State]:
     tool_execute_result, state_updates = await execute_tool_inner(state, tool)
 
-    tool_execute_result.content = f"""
-    {tool_use_title_generator(tool)}
-{tool_execute_result.content}
-    """
+    tool_execute_result.content = f"""{tool_use_title_generator(tool)}
+{tool_execute_result.content}"""
     return tool_execute_result, state_updates
 
 
