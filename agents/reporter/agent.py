@@ -6,14 +6,12 @@ from agents.reporter.prompt import get_system_prompt
 async def generate_report(info: str, input_task: str) -> str:
     system_prompt = get_system_prompt()
 
-    user_content = f"""
-    <input_task>
-    {input_task}
-    </input_task>
+    user_content = f"""<input_task>
+{input_task}
+</input_task>
 
-    Please generate a report based on the following information:
-    {info}
-    """
+Please generate a report based on the following information:
+{info}"""
 
     messages = [
         {"role": "system", "content": system_prompt},
