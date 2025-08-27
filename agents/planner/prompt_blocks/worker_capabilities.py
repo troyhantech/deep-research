@@ -6,7 +6,7 @@ async def get_worker_agent_capabilities() -> str:
     return f"""
 # Worker Agent Capabilities
 
-Worker can call the below server and tools:
+Worker can use the below server and tools to complete the subtask:
 
 {mcp_server_description}
 """

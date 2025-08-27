@@ -107,7 +107,10 @@ async def action_node(state: State) -> State:
 
     # call model to generate report directly
     remaining_reasoning_times = state["remaining_reasoning_times"] - 1
-    if remaining_reasoning_times <= 1 and state_updates["status"] != Status.DELIVERY:
+    if (
+        remaining_reasoning_times <= 1
+        and state_updates["status"] != Status.GENERATE_REPORT
+    ):
         # remove system prompt
         messages = messages[1:]
 
@@ -118,7 +121,7 @@ async def action_node(state: State) -> State:
 """
 
         report = await generate_report(info, await add_system_info(state["task"]))
-        return {"result": report, "status": Status.DELIVERY}
+        return {"result": report, "status": Status.GENERATE_REPORT}
     return {
         "messages": messages,
         **state_updates,
@@ -128,7 +131,7 @@ async def action_node(state: State) -> State:
 
 async def action_result_condition(state: State) -> str:
     match state["status"]:
-        case Status.DELIVERY:
+        case Status.GENERATE_REPORT:
             return "break_reasoning"
         case _:
             return "continue_reasoning"

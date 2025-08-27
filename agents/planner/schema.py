@@ -5,7 +5,7 @@ from langchain_core.messages import BaseMessage
 class Status:
     INVALID_TOOL_USE = "invalid_tool_use"
     COMMON_TOOL_USE = "common_tool_use"
-    DELIVERY = "delivery"
+    GENERATE_REPORT = "generate_report"
 
 
 class State(TypedDict):

@@ -1,6 +1,6 @@
 from string import Template
 from agents.worker.prompt_blocks.mcp_servers import get_mcp_prompt
-from agents.prompt_blocks.credible_report import get_credible_report_prompt
+from agents.prompt_blocks.report_guide import get_report_guide_prompt
 
 SYSTEM_PROMPT = Template(
     """You are a intelligent worker agent. You are given a task to execute.
@@ -47,15 +47,15 @@ Usage:
 </arguments>
 </call_mcp_tool>
 
-### deliver_result
+### generate_report
 
-Description: Deliver the result report of the task to the user.The result report must be credible and factually accurate.
+Description: Call reporter agent to generate the report based on the context information.
 
 Usage:
 
-<deliver_result>
-<content>The result report of the task, markdown format.</content>
-</deliver_result>
+<generate_report>
+<reason>One sentence explanation how context information meets the requirements for generating reports</reason>
+</generate_report>
 
 $MCP_SERVERS
 
@@ -65,9 +65,9 @@ $MCP_SERVERS
 2. Call MCP tools to get key information.
 3. Analyze the key information to decide the next step.
 4. Repeat step 2 and 3 until the task is completed.
-5. Use deliver_result tool to deliver the result report.
+5. Use the generate_report tool to generate the report.
 
-$CREDIBLE_REPORT_PROMPT
+$REPORT_GUIDE_PROMPT
 
 # Rules
 
@@ -96,16 +96,16 @@ async def get_system_prompt() -> str:
     return SYSTEM_PROMPT.substitute(
         {
             "MCP_SERVERS": await get_mcp_prompt(),
-            "CREDIBLE_REPORT_PROMPT": get_credible_report_prompt(),
+            "REPORT_GUIDE_PROMPT": get_report_guide_prompt(),
         }
     )
 
 
-tool_names = ["call_mcp_tool", "deliver_result"]
+tool_names = ["call_mcp_tool", "generate_report"]
 
 tool_params_names = [
     "server_name",
     "tool_name",
     "arguments",
-    "content",
+    "reason",
 ]

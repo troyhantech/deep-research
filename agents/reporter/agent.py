@@ -10,7 +10,8 @@ async def generate_report(info: str, input_task: str) -> str:
 {input_task}
 </input_task>
 
-Please generate a report based on the following information:
+Please generate a report based on the following context information:
+
 {info}"""
 
     messages = [

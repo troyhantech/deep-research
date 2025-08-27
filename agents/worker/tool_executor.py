@@ -3,6 +3,7 @@ import logging, json
 from mcp import ClientSession
 from agents.worker.schema import Status, State
 from agents.response import Response
+from agents.reporter.agent import generate_report
 
 
 class ToolExecuteResult:
@@ -114,13 +115,18 @@ async def execute_tool_inner(
                 state_updates["status"] = Status.INVALID_TOOL_USE
             return tool_execute_result, state_updates
 
-        case "deliver_result":
-            if "content" not in tool["params"]:
-                state_updates["status"] = Status.INVALID_TOOL_USE
-                tool_execute_result.content = Response.missingParam(
-                    "deliver_result", ["content"]
-                )
-                return tool_execute_result, state_updates
-            state_updates["result"] = tool["params"]["content"].strip()
-            state_updates["status"] = Status.DELIVERY
+        case "generate_report":
+            messages = state["messages"]
+
+            # remove the system message
+            messages = messages[1:]
+
+            context = "\n\n".join([f"{msg.type}: {msg.content}" for msg in messages])
+            info = f"""<context>
+{context}
+</context>"""
+
+            report = await generate_report(info, await add_system_info(state["task"]))
+            state_updates["result"] = report
+            state_updates["status"] = Status.GENERATE_REPORT
             return tool_execute_result, state_updates

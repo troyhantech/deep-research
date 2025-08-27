@@ -5,18 +5,17 @@ max_reasoning_times = 5
 max_tokens = 8192
 max_subtasks = 10
 
-[agents.reporter]
-model = "gpt-4o-mini"
-max_tokens = 8192
-
 [agents.worker]
 model = "gpt-4o-mini"
 max_tokens = 8192
 max_reasoning_times = 5
 
+[agents.reporter]
+model = "gpt-4o-mini"
+max_tokens = 8192
+
 # Support three standard MCP transport as worker tools: streamable_http、stdio or sse.
 [mcp_servers]
-
 # use streamable_http tavily
 [mcp_servers.tavily_streamable_http]
 enabled = true
