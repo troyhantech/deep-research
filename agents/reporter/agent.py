@@ -1,3 +1,4 @@
+import logging
 from config import CONFIG
 from pkg.openai_client import async_openai_sdk_client
 from agents.reporter.prompt import get_system_prompt
