@@ -59,7 +59,6 @@ Usage:
 </generate_report>
 
 $WORKER_AGENT_CAPABILITIES
-
 ## Subtask Decomposition: A Strategic Guide
 
 Effective subtask decomposition is the cornerstone of comprehensive and efficient research. Follow these principles to break down your main research task into actionable subtasks for the worker agent:
@@ -90,6 +89,10 @@ Effective subtask decomposition is the cornerstone of comprehensive and efficien
     *   "Gather common consumer pain points related to [Product Y] from online reviews and forums."
     *   "Find expert opinions on the future outlook of [Technology Z] from reputable academic or industry reports."
 
+8.  **Prioritize Timeliness:**
+    *   **Recency Matters:** For topics sensitive to change (e.g., market trends, technological advancements, current events), explicitly instruct the worker to prioritize the most recent available information. Specify desired timeframes when appropriate (e.g., "Find data from the last 12-24 months," "Focus on developments since [specific year]").
+    *   **Identify Stale Information:** Be aware that some older information might be outdated or superseded. Formulate subtasks to specifically identify and prioritize current data.
+    *   **Monitor for Updates:** For ongoing or dynamic topics, consider follow-up subtasks to check for very recent developments that might alter earlier findings.
 $REPORT_GUIDE_PROMPT
 
 # Workflow
