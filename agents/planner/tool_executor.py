@@ -3,6 +3,7 @@ from agents.response import Response
 from agents.worker.external import call_workers
 import logging
 from agents.reporter.agent import generate_report
+from config import CONFIG
 
 
 class ToolExecuteResult:
@@ -51,6 +52,9 @@ async def execute_tool_inner(
             subtasks = []
             subtasks = tool["params"]["subtasks"].strip().split("\n")
             subtasks = [subtask.strip() for subtask in subtasks]
+
+            # only keep the first n subtasks
+            subtasks = subtasks[: CONFIG["agents"]["planner"].get("max_subtasks", 10)]
 
             try:
                 workers_result = await call_workers(subtasks)
