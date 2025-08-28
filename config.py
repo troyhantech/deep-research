@@ -13,5 +13,8 @@ load_dotenv(env_path, override=True)
 
 try:
     CONFIG = toml.load(os.path.expanduser("config.toml"))
+
+    # Load openai max retries from env
+    OPENAI_MAX_RETRIES = int(os.getenv("OPENAI_MAX_RETRIES", 3))
 except Exception as e:
     print(f"load config.toml failed: {e}")
