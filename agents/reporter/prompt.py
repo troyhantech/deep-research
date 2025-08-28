@@ -9,6 +9,10 @@ Analyze the given research task and the context information, and generate a repo
 
 $REPORT_GUIDE_PROMPT
 
+# Rule
+
+​If any issues occur during the data retrieval process, please state in the report.
+
 # Output Format
 
 Output report content in markdown format directly, without any  peripheral modifiers.
