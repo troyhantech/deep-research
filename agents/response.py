@@ -7,3 +7,7 @@ class Response:
     @staticmethod
     def missingParam(tool_name: str, params: list[str]) -> str:
         return f"[Error] The tool {tool_name} is missing params {', '.join(params)}! Please retry with correct format."
+
+    @staticmethod
+    def failedToCallModel(err_msg: str) -> str:
+        return f"[Error] Failed to call model. Please try again later. Error message: {err_msg}."

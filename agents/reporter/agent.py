@@ -1,6 +1,7 @@
 from config import CONFIG
 from pkg.openai_client import async_openai_sdk_client
 from agents.reporter.prompt import get_system_prompt
+from agents.response import Response
 
 
 async def generate_report(info: str, input_task: str) -> str:
@@ -19,10 +20,16 @@ Please generate a report based on the following context information:
         {"role": "user", "content": user_content},
     ]
 
-    response = await async_openai_sdk_client.chat.completions.create(
-        model=CONFIG["agents"]["reporter"]["model"],
-        messages=messages,
-        max_tokens=CONFIG["agents"]["reporter"]["max_tokens"],
-    )
+    report = ""
+    try:
+        response = await async_openai_sdk_client.chat.completions.create(
+            model=CONFIG["agents"]["reporter"]["model"],
+            messages=messages,
+            max_tokens=CONFIG["agents"]["reporter"]["max_tokens"],
+        )
+        report = response.choices[0].message.content
+    except Exception as e:
+        logging.error(f"failed to call reasoning model: {e}")
+        report = Response.failedToCallModel(str(e))
 
-    return response.choices[0].message.content
+    return report

@@ -43,17 +43,21 @@ async def reasoning_node(state: State) -> State:
         messages[0].content = system_prompt
 
     # call reasoning model
-    response = await async_openai_sdk_client.chat.completions.create(
-        model=CONFIG["agents"]["worker"]["model"],
-        messages=convert_to_openai_messages(messages),
-        max_tokens=CONFIG["agents"]["worker"]["max_tokens"],
-    )
-
-    messages.append(
-        AIMessage(
-            content=response.choices[0].message.content,
+    try:
+        response = await async_openai_sdk_client.chat.completions.create(
+            model=CONFIG["agents"]["worker"]["model"],
+            messages=convert_to_openai_messages(messages),
+            max_tokens=CONFIG["agents"]["worker"]["max_tokens"],
         )
-    )
+
+        messages.append(
+            AIMessage(
+                content=response.choices[0].message.content,
+            )
+        )
+    except Exception as e:
+        logging.error(f"failed to call reasoning model: {e}, task: {task}")
+        messages.append(HumanMessage(content=Response.failedToCallModel(str(e))))
 
     return {
         "messages": messages,
