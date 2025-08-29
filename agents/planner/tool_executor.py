@@ -3,7 +3,6 @@ from agents.response import Response
 from agents.worker.external import call_workers
 import logging
 from agents.reporter.agent import generate_report
-from config import CONFIG
 
 
 class ToolExecuteResult:
@@ -36,6 +35,7 @@ async def execute_tool_inner(
     """
     return ToolExecuteResult, state_updates
     """
+    config = state["config"]
 
     tool_execute_result = ToolExecuteResult()
     state_updates = {}
@@ -54,10 +54,10 @@ async def execute_tool_inner(
             subtasks = [subtask.strip() for subtask in subtasks]
 
             # only keep the first n subtasks
-            subtasks = subtasks[: CONFIG["agents"]["planner"].get("max_subtasks", 10)]
+            subtasks = subtasks[: config["planner"].get("max_subtasks", 10)]
 
             try:
-                workers_result = await call_workers(subtasks)
+                workers_result = await call_workers(subtasks, config)
             except Exception as e:
                 logging.error(f"failed to call workers: {e}")
                 state_updates["status"] = Status.INVALID_TOOL_USE
@@ -80,7 +80,7 @@ async def execute_tool_inner(
 {context}
 </context>"""
 
-            report = await generate_report(info, state["task"])
+            report = await generate_report(info, state["task"], config)
             state_updates["result"] = report
             state_updates["status"] = Status.GENERATE_REPORT
             return tool_execute_result, state_updates

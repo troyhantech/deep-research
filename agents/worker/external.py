@@ -1,32 +1,31 @@
 from agents.worker.agent import create_agent
 import asyncio
-from config import CONFIG
 
 
-async def call_worker(task: str) -> str:
+async def call_worker(task: str, config: dict) -> str:
     """
     Call worker to execute subtask.
 
     Return the result of worker.
     """
 
-    agent = await create_agent()
-    result = await agent.ainvoke(
+    worker_agent = await create_agent()
+    result = await worker_agent.ainvoke(
         {
             "task": task,
-            "remaining_reasoning_times": CONFIG.get("agents", {})
-            .get("worker", {})
-            .get("max_reasoning_times", 10),
+            "config": config,
         }
     )
     return result["result"]
 
 
-async def call_workers(tasks: list[str]) -> str:
+async def call_workers(tasks: list[str], config: dict) -> str:
     """
     Call workers to execute subtasks in parallel.
 
     Return the aggregated result of workers.
     """
-    workers_result = await asyncio.gather(*[call_worker(task) for task in tasks])
+    workers_result = await asyncio.gather(
+        *[call_worker(task, config) for task in tasks]
+    )
     return "\n====\n".join(workers_result)

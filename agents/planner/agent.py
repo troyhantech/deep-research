@@ -9,7 +9,6 @@ from langgraph.graph import START, END, StateGraph
 from langchain_core.messages.utils import convert_to_openai_messages
 from agents.planner.tool_executor import execute_tool
 from pkg.openai_client import async_openai_sdk_client
-from config import CONFIG
 from agents.tool_content_parser import parse_xml_tool_content
 from agents.response import Response
 from agents.planner.schema import State, Status
@@ -31,22 +30,25 @@ async def add_system_info(content: str) -> str:
 
 async def reasoning_node(state: State) -> State:
     messages = state.get("messages", [])
-    task = state.get("task", "")
+    task = state["task"]
+    config = state["config"]
 
     # add system prompt
     system_prompt = await get_system_prompt()
-    if not messages:
+    if not messages:  # first time
         messages.append(SystemMessage(content=system_prompt))
         messages.append(HumanMessage(content=await add_system_info(task)))
+        remaining_reasoning_times = config["planner"]["max_reasoning_times"]
     else:
         messages[0].content = system_prompt
+        remaining_reasoning_times = state["remaining_reasoning_times"]
 
     # call reasoning model
     try:
         response = await async_openai_sdk_client.chat.completions.create(
-            model=CONFIG["agents"]["planner"]["model"],
+            model=config["planner"]["model"],
             messages=convert_to_openai_messages(messages),
-            max_tokens=CONFIG["agents"]["planner"]["max_tokens"],
+            max_tokens=config["planner"]["max_tokens"],
         )
         messages.append(
             AIMessage(
@@ -60,6 +62,7 @@ async def reasoning_node(state: State) -> State:
 
     return {
         "messages": messages,
+        "remaining_reasoning_times": remaining_reasoning_times,
     }
 
 
@@ -119,7 +122,7 @@ async def action_node(state: State) -> State:
 </context>
 """
 
-        report = await generate_report(info, state["task"])
+        report = await generate_report(info, state["task"], state["config"])
         return {"result": report, "status": Status.GENERATE_REPORT}
     return {
         "messages": messages,

@@ -59,6 +59,35 @@
             margin-bottom: 20px;
         }
 
+        details {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px;
+            outline: none;
+        }
+
+        .input-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            /* Space between inputs */
+        }
+
+        .input-row input {
+            flex: 1 1 calc(25% - 10px);
+            /* Four inputs per row with gap */
+            min-width: 120px;
+            /* Minimum width for responsiveness */
+        }
+
         label {
             display: block;
             margin-bottom: 8px;
@@ -67,19 +96,30 @@
             font-size: 1.1rem;
         }
 
-        textarea {
+        textarea,
+        input[type="text"],
+        input[type="number"] {
             width: 100%;
-            min-height: 120px;
-            padding: 15px;
+            min-height: 32px;
+            /* Adjusted for input fields */
+            padding: 8px;
             border: 2px solid #e1e5e9;
             border-radius: 12px;
             font-size: 16px;
             font-family: inherit;
             resize: vertical;
             transition: border-color 0.3s ease;
+            margin-bottom: 8px;
+            /* Add some space between inputs */
         }
 
-        textarea:focus {
+        textarea {
+            min-height: 120px;
+        }
+
+        textarea:focus,
+        input[type="text"]:focus,
+        input[type="number"]:focus {
             outline: none;
             border-color: #4facfe;
             box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
@@ -267,6 +307,36 @@
                         placeholder="请输入您的调研任务，例如：调研未来一个月（约30天）内的比特币（BTC）价格走势、市场情绪及潜在影响因素进行系统性、多维度分析，并输出一份结构清晰、论据充分的中文分析报告，旨在为决策者提供前瞻性的市场洞察与风险评估。">调研未来一个月（约30天）内的比特币（BTC）价格走势、市场情绪及潜在影响因素进行系统性、多维度分析，并输出一份结构清晰、论据充分的中文分析报告，旨在为决策者提供前瞻性的市场洞察与风险评估。</textarea>
                 </div>
 
+                <details>
+                    <summary>Agents 配置 (可选)</summary>
+                    <div class="input-group">
+                        <label>Planner</label>
+                        <input type="text" id="plannerModel" placeholder="模型 (例如: gpt-4o-mini)">
+                        <div class="input-row">
+                            <input type="number" id="plannerMaxReasoningTimes" placeholder="最大推理次数 (例如: 5)">
+                            <input type="number" id="plannerMaxTokens" placeholder="最大令牌数 (例如: 8192)">
+                            <input type="number" id="plannerMaxSubtasks" placeholder="最大子任务数 (例如: 10)">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Worker</label>
+                        <input type="text" id="workerModel" placeholder="模型 (例如: gpt-4o-mini)">
+                        <div class="input-row">
+                            <input type="number" id="workerMaxTokens" placeholder="最大令牌数 (例如: 8192)">
+                            <input type="number" id="workerMaxReasoningTimes" placeholder="最大推理次数 (例如: 5)">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Reporter</label>
+                        <input type="text" id="reporterModel" placeholder="模型 (例如: gpt-4o-mini)">
+                        <div class="input-row">
+                            <input type="number" id="reporterMaxTokens" placeholder="最大令牌数 (例如: 8192)">
+                        </div>
+                    </div>
+                </details>
+
                 <button id="submitBtn" class="submit-btn">开始调研</button>
             </div>
 
@@ -289,6 +359,17 @@
 
     <script>
         const taskInput = document.getElementById('taskInput');
+        const plannerModelInput = document.getElementById('plannerModel');
+        const plannerMaxReasoningTimesInput = document.getElementById('plannerMaxReasoningTimes');
+        const plannerMaxTokensInput = document.getElementById('plannerMaxTokens');
+        const plannerMaxSubtasksInput = document.getElementById('plannerMaxSubtasks');
+
+        const workerModelInput = document.getElementById('workerModel');
+        const workerMaxTokensInput = document.getElementById('workerMaxTokens');
+        const workerMaxReasoningTimesInput = document.getElementById('workerMaxReasoningTimes');
+
+        const reporterModelInput = document.getElementById('reporterModel');
+        const reporterMaxTokensInput = document.getElementById('reporterMaxTokens');
         const submitBtn = document.getElementById('submitBtn');
         const loading = document.getElementById('loading');
         const resultSection = document.getElementById('resultSection');
@@ -316,13 +397,38 @@
             loading.style.display = 'block';
             submitBtn.disabled = true;
 
+            const requestBody = { task: task };
+            const config = {};
+
+            const plannerConfig = {};
+            if (plannerModelInput.value.trim()) plannerConfig.model = plannerModelInput.value.trim();
+            if (plannerMaxReasoningTimesInput.value.trim()) plannerConfig.max_reasoning_times = parseInt(plannerMaxReasoningTimesInput.value.trim());
+            if (plannerMaxTokensInput.value.trim()) plannerConfig.max_tokens = parseInt(plannerMaxTokensInput.value.trim());
+            if (plannerMaxSubtasksInput.value.trim()) plannerConfig.max_subtasks = parseInt(plannerMaxSubtasksInput.value.trim());
+            if (Object.keys(plannerConfig).length > 0) config.planner = plannerConfig;
+
+            const workerConfig = {};
+            if (workerModelInput.value.trim()) workerConfig.model = workerModelInput.value.trim();
+            if (workerMaxTokensInput.value.trim()) workerConfig.max_tokens = parseInt(workerMaxTokensInput.value.trim());
+            if (workerMaxReasoningTimesInput.value.trim()) workerConfig.max_reasoning_times = parseInt(workerMaxReasoningTimesInput.value.trim());
+            if (Object.keys(workerConfig).length > 0) config.worker = workerConfig;
+
+            const reporterConfig = {};
+            if (reporterModelInput.value.trim()) reporterConfig.model = reporterModelInput.value.trim();
+            if (reporterMaxTokensInput.value.trim()) reporterConfig.max_tokens = parseInt(reporterMaxTokensInput.value.trim());
+            if (Object.keys(reporterConfig).length > 0) config.reporter = reporterConfig;
+
+            if (Object.keys(config).length > 0) {
+                requestBody.config = config;
+            }
+
             try {
                 const response = await fetch("/deep-research", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ task: task })
+                    body: JSON.stringify(requestBody)
                 });
 
                 if (!response.ok) {

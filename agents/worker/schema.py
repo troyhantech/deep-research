@@ -10,8 +10,10 @@ class Status:
 
 class State(TypedDict):
     task: str
-    result: str
+    config: dict
 
     messages: List[BaseMessage]
     status: Status
     remaining_reasoning_times: int
+
+    result: str

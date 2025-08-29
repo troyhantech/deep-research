@@ -202,6 +202,38 @@ curl -X POST "http://localhost:8000/deep-research" \
      -d '{"task": "分析未来一个月比特币的价格趋势走向，中文输出"}'
 ```
 
+**通过接口配置模型：**
+
+默认情况下，会使用 `config.toml` 中的 agents 配置。
+
+另外，支持在请求的时通过 config 字段指定各个 agent 的配置，同时支持可以是部分更新，即可以仅传入某个 agent 的配置，其他 agent 使用 `config.toml` 中的配置。
+
+格式如下所示：
+
+```json
+{
+  "task": "分析未来一个月比特币的价格趋势走向，中文输出",
+  // 可选，默认使用 config.toml 中的 agents 配置
+  "config": {
+    "planner": {
+      "model": "gpt-4o",
+      "max_reasoning_times": 5,
+      "max_tokens": 4096,
+      "max_subtasks": 10
+    },
+    "worker": {
+      "model": "gpt-4o",
+      "max_tokens": 4096,
+      "max_reasoning_times": 5
+    },
+    "reporter": {
+      "model": "gpt-4o",
+      "max_tokens": 4096
+    }
+  }
+}
+```
+
 > **使用技巧**
 >
 > 调研任务应该清晰具体，例如：

@@ -202,6 +202,38 @@ curl -X POST "http://localhost:8000/deep-research" \
      -d '{"task": "Analyze Bitcoin price trends for the next month."}'
 ```
 
+**By Interface Configuration Model:**
+
+By default, the agents configuration in `config.toml` will be used.
+
+Additionally, you can specify the configuration for each agent through the config field in the request, and partial updates are supported. This means you can only pass the configuration for a specific agent, while other agents will use the configuration in `config.toml`.
+
+The format is as follows:
+
+```json
+{
+  "task": "Analyze the price trend of Bitcoin for the next month, output in English",
+  // Optional, defaults to the agents configuration in config.toml
+  "config": {
+    "planner": {
+      "model": "gpt-4o",
+      "max_reasoning_times": 5,
+      "max_tokens": 4096,
+      "max_subtasks": 10
+    },
+    "worker": {
+      "model": "gpt-4o",
+      "max_tokens": 4096,
+      "max_reasoning_times": 5
+    },
+    "reporter": {
+      "model": "gpt-4o",
+      "max_tokens": 4096
+    }
+  }
+}
+```
+
 > **Usage Tips**
 >
 > Task should be clear and specific, for example:
