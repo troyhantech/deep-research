@@ -156,7 +156,7 @@ url = "sse_server_url"
 
 ### 4. 启动服务
 
-启动服务的命令为，默认启动模式为 `mcp_stdio`，可以通过指定 `mode` 修改启动的模式：
+启动服务的命令为 `python main.py`，默认启动模式为 `mcp_stdio`，可以通过指定 `mode` 修改启动的模式：
 
 ```bash
 python main.py
@@ -171,7 +171,7 @@ options:
 
 #### 4.1 启动 MCP STDIO 服务
 
-项目下启动 MCP STDIO 模式的命令为：
+启动 MCP STDIO 模式的命令为：
 
 ```bash
 python main.py --mode mcp_stdio
@@ -200,6 +200,8 @@ python main.py --mode mcp_stdio
 
 #### 4.2 启动 MCP STREAMABLE HTTP 服务
 
+启动 MCP STREAMABLE HTTP 模式的命令为：
+
 ```bash
 python main.py --mode mcp_streamable_http --host 0.0.0.0 --port 8000
 ```
@@ -207,6 +209,8 @@ python main.py --mode mcp_streamable_http --host 0.0.0.0 --port 8000
 现在可以通过在 MCP 客户端中配置 `http://localhost:8000/mcp/` 远程访问您的 deep-research 服务。
 
 #### 4.2 启动 HTTP API 服务
+
+启动 HTTP API 模式的命令为：
 
 ```bash
 python main.py --mode http_api --host 0.0.0.0 --port 8000
@@ -250,7 +254,7 @@ curl -X POST "http://localhost:8000/deep-research" \
 <summary><strong>通过接口配置模型参数</strong></summary>
 默认情况下，会使用 `config.toml` 中的 agents 配置。
 
-另外，支持在请求的时通过 config 字段指定各个 agent 的配置，同时支持可以是部分更新，即可以仅传入某个 agent 的配置，其他 agent 使用 `config.toml` 中的配置。
+另外，支持在请求的时通过 config 字段指定各个 agent 的配置，同时支持可以是部分更新，即：可以仅传入某个 agent 的配置，其他 agent 使用 `config.toml` 中的配置。
 
 格式如下所示：
 

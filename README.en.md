@@ -156,7 +156,7 @@ url = "sse_server_url"
 
 ### 4. Start the Service
 
-The command to start the service is as follows, with the default launch mode being `mcp_stdio`. You can modify the launch mode by specifying the `mode` parameter:
+The command to start the service is `python main.py`, with the default launch mode being `mcp_stdio`. You can modify the launch mode by specifying the `mode` parameter:
 
 ```bash
 python main.py
@@ -200,6 +200,8 @@ To launch via MCP client, you need to explicitly specify the absolute paths to c
 
 #### 4.2 Start MCP STREAMABLE HTTP Service
 
+The command to start the service in MCP STREAMABLE HTTP mode is:
+
 ```bash
 python main.py --mode mcp_streamable_http --host 0.0.0.0 --port 8000
 ```
@@ -207,6 +209,8 @@ python main.py --mode mcp_streamable_http --host 0.0.0.0 --port 8000
 Now you can remotely access your deep-research service by configuring `http://localhost:8000/mcp/` in the MCP client.
 
 #### 4.3 Start HTTP API Service
+
+The command to start the service in HTTP API mode is:
 
 ```bash
 python main.py --mode http_api --host 0.0.0.0 --port 8000
