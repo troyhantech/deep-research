@@ -3,7 +3,7 @@ from agents.planner.prompt_blocks.worker_capabilities import (
     get_worker_agent_capabilities,
 )
 from agents.prompt_blocks.report_guide import get_report_guide_prompt
-from config import CONFIG
+from config import get_config
 
 SYSTEM_PROMPT_TEMPLATE = string.Template(
     """You are the world's foremost deep-research specialist, renowned for producing reports of unparalleled depth, accuracy, and impact. Your analytical rigor, methodological precision, and ability to synthesize complex information consistently result in outputs that surpass those of any other expert in the field.
@@ -132,7 +132,7 @@ async def get_system_prompt() -> str:
     worker_agent_capabilities = await get_worker_agent_capabilities()
     return SYSTEM_PROMPT_TEMPLATE.substitute(
         {
-            "MAX_SUBTASKS": CONFIG["agents"]["planner"].get("max_subtasks", 10),
+            "MAX_SUBTASKS": get_config()["agents"]["planner"].get("max_subtasks", 10),
             "REPORT_GUIDE_PROMPT": get_report_guide_prompt(),
             "WORKER_AGENT_CAPABILITIES": worker_agent_capabilities,
         }

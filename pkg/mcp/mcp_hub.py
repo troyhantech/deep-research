@@ -17,8 +17,6 @@ from pkg.mcp.types import (
     StreamableHTTPConfig,
 )
 
-from config import CONFIG
-
 
 @dataclass
 class McpConnection:
@@ -47,12 +45,12 @@ class McpConnection:
 
 
 class McpHub:
-    def __init__(self, mcp_server_configs: dict[str, McpServerConfig]):
+    def __init__(self):
         self.connections: dict[str, McpConnection] = {}
         self.initialized = False
-        self.mcp_server_configs = mcp_server_configs
 
-    async def initialize(self):
+    async def init(self, mcp_server_configs: dict[str, McpServerConfig]):
+        self.mcp_server_configs = mcp_server_configs
         if self.mcp_server_configs:
             await self._initialize_server_connections(self.mcp_server_configs)
         self.initialized = True
@@ -122,12 +120,8 @@ class McpHub:
         if len(self.mcp_server_configs) == 0:
             return []
         if not self.initialized:
-            logging.info("MCP servers are not initialized, waiting...")
-            await self.initialize()
+            raise Exception("MCP servers not initialized")
         return [connection.server for connection in self.connections.values()]
-
-
-MCPServersConfig = CONFIG["mcp_servers"]
 
 
 def convert_to_mcp_server_configs(
@@ -168,4 +162,4 @@ def convert_to_mcp_server_configs(
     return mcp_server_configs
 
 
-mcp_hub = McpHub(convert_to_mcp_server_configs(MCPServersConfig))
+mcp_hub = McpHub()

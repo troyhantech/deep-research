@@ -156,33 +156,74 @@ url = "sse_server_url"
 
 ### 4. Start the Service
 
+The command to start the service is as follows, with the default launch mode being `mcp_stdio`. You can modify the launch mode by specifying the `mode` parameter:
+
 ```bash
 python main.py
+
+options:
+  --env-file path to .env file, default: ./.env
+  --config-file path to config.toml, default: ./config.toml
+  --mode Launch mode: mcp_stdio, mcp_streamable_http, or http_api, default: mcp_stdio
+  --host default: 0.0.0.0
+  --port default: 8000
 ```
 
-Exposed endpoints:
+#### 4.1 Start MCP STDIO Service
 
-- HTTP Service: `http://localhost:8000`
-- MCP Service: `http://localhost:8000/mcp`
-- Web UI: `http://localhost:8000/web`
+The command to start the service in MCP STDIO mode is:
 
-## 📖 Usage Guide
+```bash
+python main.py --mode mcp_stdio
+```
 
-### Web UI
+To launch via MCP client, you need to explicitly specify the absolute paths to configuration files. For example, you can configure in Claude Desktop:
 
-Open `http://localhost:8000/web` to access the Web UI.
+```json
+{
+  "mcpServers": {
+    "deep-research": {
+      "command": "python",
+      "args": [
+        "main.py",
+        "--env-file",
+        "/ABSOLUTE/PATH/TO/.env", // Replace with your .env file path
+        "--config-file",
+        "/ABSOLUTE/PATH/TO/config.toml", // Replace with your config.toml file path
+        "--mode",
+        "mcp_stdio"
+      ]
+    }
+  }
+}
+```
 
-### HTTP Interface
+#### 4.2 Start MCP STREAMABLE HTTP Service
 
-Request this interface by HTTP POST, send your research task, wait for a while, and get a comprehensive report.
+```bash
+python main.py --mode mcp_streamable_http --host 0.0.0.0 --port 8000
+```
 
-**POST** `/deep-research`
+Now you can remotely access your deep-research service by configuring `http://localhost:8000/mcp/` in the MCP client.
+
+#### 4.3 Start HTTP API Service
+
+```bash
+python main.py --mode http_api --host 0.0.0.0 --port 8000
+```
+
+Now you can access via:
+
+- API endpoint: `http://localhost:8000/deep-research`
+- Web interface: `http://localhost:8000/web`
+
+Send your research task via HTTP POST request to `http://localhost:8000/deep-research`, and after some time, you'll receive a research report.
 
 **Request Body:**
 
 ```json
 {
-  "task": "Analyze Bitcoin price trends for the next month."
+  "task": "Analyze Bitcoin price trends for the next month, output in English"
 }
 ```
 
@@ -190,30 +231,33 @@ Request this interface by HTTP POST, send your research task, wait for a while, 
 
 ```json
 {
-  "result": "# Bitcoin Price Trends Analysis for the Next Month\n\n## Introduction\n\nThis report provides an analysis of Bitcoin price trends for the next month..."
+  "result": "# Bitcoin (BTC) Price Trend Analysis for Next Month\n\n## Introduction\n\nThis report aims to analyze the core driving factors of Bitcoin (BTC) price trends for the next month (August 18, 2025 to September 17, 2025). By focusing on market liquidity, technical charts, and key macroeconomic signals, we strive to identify the main market contradictions and determine BTC's potential direction and key price levels during this period..."
 }
 ```
 
 **Quick Start Examples:**
 
+- You can quickly test via browser by visiting `http://localhost:8000/web`
+- You can request the API using the following command:
+
 ```bash
 curl -X POST "http://localhost:8000/deep-research" \
      -H "Content-Type: application/json" \
-     -d '{"task": "Analyze Bitcoin price trends for the next month."}'
+     -d '{"task": "Analyze Bitcoin price trends for the next month, output in English"}'
 ```
 
-**By Interface Configuration Model:**
+<details>
+<summary><strong>Model Configuration via API</strong></summary>
+By default, the service will use agent configurations from `config.toml`.
 
-By default, the agents configuration in `config.toml` will be used.
+Additionally, you can specify configurations for each agent in the request's config field. Partial updates are supported, meaning you can provide configuration for just one agent while others will use the settings from `config.toml`.
 
-Additionally, you can specify the configuration for each agent through the config field in the request, and partial updates are supported. This means you can only pass the configuration for a specific agent, while other agents will use the configuration in `config.toml`.
-
-The format is as follows:
+Format example:
 
 ```json
 {
-  "task": "Analyze the price trend of Bitcoin for the next month, output in English",
-  // Optional, defaults to the agents configuration in config.toml
+  "task": "Analyze Bitcoin price trends for the next month, output in English",
+  // Optional, defaults to agents config in config.toml
   "config": {
     "planner": {
       "model": "gpt-4o",
@@ -234,38 +278,15 @@ The format is as follows:
 }
 ```
 
-> **Usage Tips**
+</details>
+
+> **Research Task Tips**
 >
-> Task should be clear and specific, for example:
+> Research tasks should be clear and specific. A well-defined research task should include:
 >
-> ```txt
-> Research the economic impact of semaglutide on global healthcare systems.
-> Do:
-> - Include specific figures, trends, statistics, and measurable outcomes.
-> - Prioritize reliable, up-to-date sources: peer-reviewed research, health
->   organizations (e.g., WHO, CDC), regulatory agencies, or pharmaceutical
->   earnings reports.
-> - Include inline citations and return all source metadata.
->
-> Be analytical, avoid generalities, and ensure that each section supports
-> data-backed reasoning that could inform healthcare policy or financial modeling.
-> ```
-
-### MCP Interface
-
-The service also exposes an MCP interface, allowing this service to be used as an MCP service by any MCP client.
-
-Configure in MCP client:
-
-```json
-{
-  "mcpServers": {
-    "deep-research": {
-      "url": "http://localhost:8000/mcp"
-    }
-  }
-}
-```
+> 1. Research topic: What is the subject of the research?
+> 2. Research background: Why is this research being conducted? What are the objectives?
+> 3. Research requirements: What are the specific requirements for the research?
 
 ## ❓ Frequently Asked Questions (FAQ)
 

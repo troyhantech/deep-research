@@ -156,27 +156,68 @@ url = "sse_server_url"
 
 ### 4. 启动服务
 
+启动服务的命令为，默认启动模式为 `mcp_stdio`，可以通过指定 `mode` 修改启动的模式：
+
 ```bash
 python main.py
+
+options:
+  --env-file path to .env file, default: ./.env
+  --config-file path to config.toml, default: ./config.toml
+  --mode Launch mode: mcp_stdio, mcp_streamable_http, or http_api, default: mcp_stdio
+  --host default: 0.0.0.0
+  --port default: 8000
 ```
 
-暴露方式：
+#### 4.1 启动 MCP STDIO 服务
 
-- HTTP 服务：`http://localhost:8000`
-- MCP 服务：`http://localhost:8000/mcp`
+项目下启动 MCP STDIO 模式的命令为：
+
+```bash
+python main.py --mode mcp_stdio
+```
+
+通过 MCP 客户端启动，需要使用绝对路径显式指定配置文件的位置，例如，可以在 Claude Desktop 中配置：
+
+```json
+{
+  "mcpServers": {
+    "deep-research": {
+      "command": "python",
+      "args": [
+        "main.py",
+        "--env-file",
+        "/ABSOLUTE/PATH/TO/.env", // 改为你自己的 .env 文件路径
+        "--config-file",
+        "/ABSOLUTE/PATH/TO/config.toml", // 改为你自己的 config.toml 文件路径
+        "--mode",
+        "mcp_stdio"
+      ]
+    }
+  }
+}
+```
+
+#### 4.2 启动 MCP STREAMABLE HTTP 服务
+
+```bash
+python main.py --mode mcp_streamable_http --host 0.0.0.0 --port 8000
+```
+
+现在可以通过在 MCP 客户端中配置 `http://localhost:8000/mcp/` 远程访问您的 deep-research 服务。
+
+#### 4.2 启动 HTTP API 服务
+
+```bash
+python main.py --mode http_api --host 0.0.0.0 --port 8000
+```
+
+现在可以通过以下方式访问：
+
+- API 接口：`http://localhost:8000/deep-research`
 - Web 网页：`http://localhost:8000/web`
 
-## 📖 使用指南
-
-### Web 网页
-
-打开 `http://localhost:8000/web` 即可访问 Web 网页。
-
-### HTTP 接口
-
-通过 HTTP POST 请求该接口，发送你的调研任务，等待一段时间后，返回一份调研报告。
-
-**POST** `/deep-research`
+通过 HTTP POST 请求 `http://localhost:8000/deep-research`，发送你的调研任务，等待一段时间后，将响应一份调研报告。
 
 **请求 Body:**
 
@@ -196,14 +237,17 @@ python main.py
 
 **快速开始示例:**
 
+- 可以浏览器访问 `http://localhost:8000/web` 快捷试用。
+- 可以通过以下命令请求 API：
+
 ```bash
 curl -X POST "http://localhost:8000/deep-research" \
      -H "Content-Type: application/json" \
      -d '{"task": "分析未来一个月比特币的价格趋势走向，中文输出"}'
 ```
 
-**通过接口配置模型：**
-
+<details>
+<summary><strong>通过接口配置模型参数</strong></summary>
 默认情况下，会使用 `config.toml` 中的 agents 配置。
 
 另外，支持在请求的时通过 config 字段指定各个 agent 的配置，同时支持可以是部分更新，即可以仅传入某个 agent 的配置，其他 agent 使用 `config.toml` 中的配置。
@@ -234,35 +278,15 @@ curl -X POST "http://localhost:8000/deep-research" \
 }
 ```
 
-> **使用技巧**
+</details>
+
+> **调研任务技巧**
 >
-> 调研任务应该清晰具体，例如：
+> 调研任务应该清晰具体，一个清晰的调研任务应该包含以下几个方面：
 >
-> ```txt
-> 研究司美格鲁肽对全球医疗体系的经济影响。
-> 需完成：
-> - 包含具体数据、趋势、统计指标及可量化结果。
-> - 优先采用可靠的最新信源：同行评议研究、卫生组织（如WHO、CDC）、监管机构或药企财报。
-> - 需标注文中引用并附全部来源元数据。
->
-> 要求保持分析性，避免笼统表述，确保每个结论都有数据支撑，能为医疗政策或财务模型提供依据。
-> ```
-
-### MCP 接口
-
-服务同时暴露了 MCP 接口，可以将本服务作为 MCP 服务供任何 MCP 客户端使用。
-
-在 MCP 客户端配置：
-
-```json
-{
-  "mcpServers": {
-    "deep-research": {
-      "url": "http://localhost:8000/mcp"
-    }
-  }
-}
-```
+> 1. 调研的主题：调研任务的主题是什么？
+> 2. 调研的背景：为什么要做着个调研？调研的目标是什么？
+> 3. 调研的要求：对调研的要求有哪些？
 
 ## ❓ 常见问题 (FAQ)
 

@@ -2,7 +2,11 @@
 __pycache__
 
 .env
-
 config.toml
 
 userinput.py
+
+# output/
+.vercel
+
+.DS_Store
