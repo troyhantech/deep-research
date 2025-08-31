@@ -183,13 +183,13 @@ python main.py --mode mcp_stdio
 {
   "mcpServers": {
     "deep-research": {
-      "command": "python",
+      "command": "/ABSOLUTE/PATH/TO/python", // python 的绝对路径，linux 或 mac 系统：使用 which python 查看，windows 系统：使用 where python 查看
       "args": [
-        "main.py",
+        "/ABSOLUTE/PATH/TO/main.py", // 项目的 main.py 在你的机器上的绝对路径
         "--env-file",
-        "/ABSOLUTE/PATH/TO/.env", // 改为你自己的 .env 文件路径
+        "/ABSOLUTE/PATH/TO/.env", // 项目的 .env 文件在你的机器上的绝对路径
         "--config-file",
-        "/ABSOLUTE/PATH/TO/config.toml", // 改为你自己的 config.toml 文件路径
+        "/ABSOLUTE/PATH/TO/config.toml", // 项目的 config.toml 文件在你的机器上的绝对路径
         "--mode",
         "mcp_stdio"
       ]

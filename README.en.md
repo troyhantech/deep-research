@@ -183,13 +183,13 @@ To launch via MCP client, you need to explicitly specify the absolute paths to c
 {
   "mcpServers": {
     "deep-research": {
-      "command": "python",
+      "command": "/ABSOLUTE/PATH/TO/python", // The path to python, you can use `which python` on Linux or Mac, or `where python` on Windows.
       "args": [
-        "main.py",
+        "/ABSOLUTE/PATH/TO/main.py", // The absolute path to the project's main.py on your machine.
         "--env-file",
-        "/ABSOLUTE/PATH/TO/.env", // Replace with your .env file path
+        "/ABSOLUTE/PATH/TO/.env", // The absolute path to the project's .env file on your machine.
         "--config-file",
-        "/ABSOLUTE/PATH/TO/config.toml", // Replace with your config.toml file path
+        "/ABSOLUTE/PATH/TO/config.toml", // The absolute path to the project's config.toml file on your machine.
         "--mode",
         "mcp_stdio"
       ]
