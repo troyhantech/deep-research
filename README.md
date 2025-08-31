@@ -131,27 +131,30 @@ model = "gpt-4o"
 max_tokens = 4096
 max_reasoning_times = 5
 
-# 支持三种标准 MCP 传输方式：streamable_http、stdio 或 sse。根据需要配置任意 MCP 服务。
+# 支持三种标准 MCP 传输方式：streamable_http、stdio 或 sse。根据需要配置任意 MCP 服务，例如使用 tavily：
 [mcp_servers]
+
+# 使用 stdio 方式调用 tavily
+[mcp_servers.tavily_stdio]
+enabled = false
+type = "stdio"
+command = "npx"
+args = ["-y", "mcp-remote", "https://mcp.tavily.com/mcp/?tavilyApiKey=your-tavily-api-key"]
+include_tools = ["tavily_search"] # 仅使用 tavily_search 工具，如果不填，则默认可以使用该 MCP 服务的所有工具
 
 # 使用 streamable_http 方式调用 tavily
 [mcp_servers.tavily_streamable_http]
 enabled = true
 type = "streamable_http"
 url = "https://mcp.tavily.com/mcp/?tavilyApiKey=your-tavily-api-key"
+include_tools = ["tavily_search"]
 
-# 或使用 stdio 方式调用 tavily
-[mcp_servers.tavily_stdio]
-enabled = false
-type = "stdio"
-command = "npx"
-args = ["-y", "mcp-remote", "https://mcp.tavily.com/mcp/?tavilyApiKey=your-tavily-api-key"]
-
-# 增加任意其他 sse 服务
+# 或者使用 sse 方式调用（已废弃，推荐使用 streamable_http）
 [mcp_servers.sse_server_example]
 enabled = false
 type = "sse"
 url = "sse_server_url"
+include_tools = ["tavily_search"]
 ```
 
 ### 4. 启动服务

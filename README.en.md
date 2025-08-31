@@ -134,24 +134,27 @@ max_reasoning_times = 5
 # Support three standard MCP transport as worker tools: streamable_http、stdio or sse.
 [mcp_servers]
 
-# use streamable_http tavily
-[mcp_servers.tavily_streamable_http]
-enabled = true
-type = "streamable_http"
-url = "https://mcp.tavily.com/mcp/?tavilyApiKey=your-tavily-api-key"
-
-# or use stdio
+# use stdio transport
 [mcp_servers.tavily_stdio]
 enabled = false
 type = "stdio"
 command = "npx"
 args = ["-y", "mcp-remote", "https://mcp.tavily.com/mcp/?tavilyApiKey=your-tavily-api-key"]
+include_tools = ["tavily_search"]
 
-# add any other sse server
+# use streamable_http transport
+[mcp_servers.tavily_streamable_http]
+enabled = true
+type = "streamable_http"
+url = "https://mcp.tavily.com/mcp/?tavilyApiKey=your-tavily-api-key"
+include_tools = ["tavily_search"] # if empty, default all
+
+# or sse transport (Deprecated - recommend using streamable_http instead)
 [mcp_servers.sse_server_example]
 enabled = false
 type = "sse"
 url = "sse_server_url"
+include_tools = ["tavily_search"]
 ```
 
 ### 4. Start the Service

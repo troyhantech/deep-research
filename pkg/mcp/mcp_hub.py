@@ -77,7 +77,13 @@ class McpHub:
                 ),
             )
 
-            self.connections[name].server.tools = await self.list_tools(name)
+            fetched_tools = await self.list_tools(name)
+            if config.include_tools:
+                fetched_tools = [
+                    tool for tool in fetched_tools if tool.name in config.include_tools
+                ]
+
+            self.connections[name].server.tools = fetched_tools
         except Exception as e:
             connection = self.connections[name]
             if connection:
@@ -158,6 +164,7 @@ def convert_to_mcp_server_configs(
         mcp_server_configs[name] = McpServerConfig(
             type=server_type,
             config=_config,
+            include_tools=config.get("include_tools", []),
         )
     return mcp_server_configs
 

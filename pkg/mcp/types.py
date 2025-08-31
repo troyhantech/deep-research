@@ -97,6 +97,7 @@ class McpServerType(Enum):
 class McpServerConfig:
     type: McpServerType
     config: StdioConfig | SSEConfig | StreamableHTTPConfig
+    include_tools: list[str] | None = None
 
 
 class McpServerStatus(Enum):
