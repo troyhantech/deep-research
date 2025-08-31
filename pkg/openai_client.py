@@ -6,6 +6,9 @@ _async_openai_sdk_client = None
 
 
 def get_async_openai_client():
+    global _async_openai_sdk_client
+    if _async_openai_sdk_client is None:
+        init_openai_client()
     return _async_openai_sdk_client
 
 
