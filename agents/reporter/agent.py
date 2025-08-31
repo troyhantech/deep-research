@@ -1,5 +1,5 @@
 import logging
-from pkg.openai_client import async_openai_sdk_client
+from pkg.openai_client import get_async_openai_client
 from agents.reporter.prompt import get_system_prompt
 from agents.response import Response
 
@@ -22,7 +22,7 @@ Please generate a report based on the following context information:
 
     report = ""
     try:
-        response = await async_openai_sdk_client.chat.completions.create(
+        response = await get_async_openai_client().chat.completions.create(
             model=config["reporter"]["model"],
             messages=messages,
             max_tokens=config["reporter"]["max_tokens"],

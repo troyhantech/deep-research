@@ -1,7 +1,6 @@
 import logging
 import argparse
 import asyncio
-import os
 import argparse
 
 from fastapi import FastAPI
@@ -12,6 +11,7 @@ from endpoints.api.web import router as web_router
 from pkg.mcp.mcp_hub import mcp_hub, convert_to_mcp_server_configs
 from config import init_config
 from endpoints.mcp.deep_research import mcp
+from pkg.openai_client import init_openai_client
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -21,6 +21,8 @@ logging.basicConfig(
 async def init(env_file: str, config_file: str):
     logging.info(f"init config...")
     config = init_config(env_file, config_file)
+
+    init_openai_client()
 
     logging.info("connecting mcp servers...")
     try:

@@ -9,7 +9,7 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from langgraph.graph import START, END, StateGraph
 from langchain_core.messages.utils import convert_to_openai_messages
 from agents.worker.tool_executor import execute_tool
-from pkg.openai_client import async_openai_sdk_client
+from pkg.openai_client import get_async_openai_client
 from agents.tool_content_parser import parse_xml_tool_content
 from agents.response import Response
 from agents.worker.schema import State, Status
@@ -46,7 +46,7 @@ async def reasoning_node(state: State) -> State:
 
     # call reasoning model
     try:
-        response = await async_openai_sdk_client.chat.completions.create(
+        response = await get_async_openai_client().chat.completions.create(
             model=config["worker"]["model"],
             messages=convert_to_openai_messages(messages),
             max_tokens=config["worker"]["max_tokens"],
