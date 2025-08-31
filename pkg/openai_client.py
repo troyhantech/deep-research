@@ -15,5 +15,5 @@ def get_async_openai_client():
 def init_openai_client():
     global _async_openai_sdk_client
     _async_openai_sdk_client = wrap_openai(
-        AsyncOpenAI(max_retries=os.getenv("OPENAI_MAX_RETRIES", 3))
+        AsyncOpenAI(max_retries=int(os.getenv("OPENAI_MAX_RETRIES", "3")))
     )
