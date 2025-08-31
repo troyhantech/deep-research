@@ -252,6 +252,7 @@ curl -X POST "http://localhost:8000/deep-research" \
 
 <details>
 <summary><strong>Model Configuration via API</strong></summary>
+
 By default, the service will use agent configurations from `config.toml`.
 
 Additionally, you can specify configurations for each agent in the request's config field. Partial updates are supported, meaning you can provide configuration for just one agent while others will use the settings from `config.toml`.

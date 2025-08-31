@@ -252,6 +252,7 @@ curl -X POST "http://localhost:8000/deep-research" \
 
 <details>
 <summary><strong>通过接口配置模型参数</strong></summary>
+
 默认情况下，会使用 `config.toml` 中的 agents 配置。
 
 另外，支持在请求的时通过 config 字段指定各个 agent 的配置，同时支持可以是部分更新，即：可以仅传入某个 agent 的配置，其他 agent 使用 `config.toml` 中的配置。
