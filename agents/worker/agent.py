@@ -102,11 +102,12 @@ async def action_node(state: State) -> State:
 
     action_result = tool_execute_result.content
 
-    messages.append(
-        HumanMessage(
-            content=action_result,
+    if action_result:
+        messages.append(
+            HumanMessage(
+                content=action_result,
+            )
         )
-    )
 
     # call model to generate report directly
     remaining_reasoning_times = state["remaining_reasoning_times"] - 1
