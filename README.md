@@ -14,7 +14,7 @@ A simple, direct, and highly scalable deep research tool based on multi-agent ar
 
 ## ✨ Features
 
-- 🔌 **OpenAI API Compatible**: Supports any LLM compatible with OpenAI API, no function calling capability required.
+- 🔌 **OpenAI API Compatible**: Supports any LLM compatible with OpenAI API, such as [OpenAI](https://openai.com/), [OpenRouter](https://openrouter.ai/"), [DeepSeek](https://deepseek.com/), etc., and does not require the model to have tool-calling capabilities.
 - 🛠️ **Universal MCP Extension**: Supports integration of arbitrary MCP tools (stdio, streamable or sse) to extend Agent capabilities.
 - 🌐 **Simple and Intuitive**: Exposes both HTTP and MCP interfaces with clean APIs for easy integration.
 - ⚡ **High-Performance Async**: Built on FastAPI, supports high-concurrency request processing.
@@ -321,6 +321,11 @@ A: No, there will be no impact. The system will still work, but agent won't be a
 ### Q: Only Python 3.10+ is supported?
 
 A: No, the author only tests with Python 3.10+, but it should work with 3.8+ as well.
+
+## 💡 Short-term Plan
+
+1. Implement streaming output reports for faster response times.
+2. Output token consumption data.
 
 ## License
 

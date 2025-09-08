@@ -14,7 +14,7 @@
 
 ## ✨ 特性
 
-- 🔌 **兼容 OpenAI API**：支持任意符合 OpenAI API 的 LLM，无需工具调用能力。
+- 🔌 **兼容 OpenAI API**：支持任意符合 OpenAI API 的 LLM，例如 [OpenAI](https://openai.com/)、[OpenRouter](https://openrouter.ai/)、[DeepSeek](https://deepseek.com/) 等，且无需模型具有工具调用能力。
 - 🛠️ **通用 MCP 扩展**：支持集成任意 MCP 工具（stdio、streamable 或 sse），扩展 Agent 能力。
 - 🌐 **简单直观**：同时暴露 HTTP 和 MCP 接口，接口简洁，对接方便。
 - ⚡ **高性能异步**：基于 FastAPI，支持高并发请求处理。
@@ -321,6 +321,11 @@ A: 不会有影响，只是系统无法使用 MCP 工具，只能使用模型自
 ### Q: 只支持 Python 3.10+ 吗？
 
 A: 不是，作者只测试 Python 3.10+ 版本，理论上应该 3.8+ 均可。
+
+## 💡 短期规划
+
+1. 实现流式输出报告，更快响应
+2. 输出消耗的 token 数据
 
 ## License
 
