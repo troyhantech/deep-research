@@ -38,9 +38,12 @@ flowchart TD
         Worker1 --> Planner
         Worker2 --> Planner
         Worker3 --> Planner
+
+        Reporter["📝 Reporter Agent"]
+        Planner --> Reporter
     end
 
-    AgentSystem --> Report(["Report"])
+    Reporter --> Report(["Report"])
 ```
 
 The general workflow is as follows:
@@ -52,7 +55,7 @@ The general workflow is as follows:
 5. The planner analyzes the context and the subtask results to determine next action.
 6. Repeat this process until one of the following conditions is met:
 
-   - The Planner deems the information sufficient and proactively generates a report.
+   - The Planner proactively invokes the Reporter to generate a report when sufficient information is deemed available..
    - The number of iterations reaches the `max_reasoning_times` configuration, at which point the system forcibly passes the existing information to the Reporter and requests it to generate a report.
 
 7. The system delivers the final report to the user.

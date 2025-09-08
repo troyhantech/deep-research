@@ -38,9 +38,12 @@ flowchart TD
         Worker1 --> Planner
         Worker2 --> Planner
         Worker3 --> Planner
+
+        Reporter["📝 Reporter Agent"]
+        Planner --> Reporter
     end
 
-    AgentSystem --> Report(["Report"])
+    Reporter --> Report(["Report"])
 ```
 
 整体工作流程大致如下：
@@ -52,7 +55,7 @@ flowchart TD
 5. Planner 再次分析上下文和子任务结果，决定下一步行动。
 6. 重复这个过程，直到满足以下条件之一：
 
-   - Planner 认为信息充足，则主动产出报告。
+   - Planner 认为信息充足，则主动调用 Reporter 产出报告。
    - 循环次数达到 `max_reasoning_times` 配置，系统强制将已有信息传入 Reporter，并请求其产出报告。
 
 7. 系统将最终报告交付给用户。
