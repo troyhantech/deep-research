@@ -143,7 +143,7 @@ enabled = false
 type = "stdio"
 command = "npx"
 args = ["-y", "mcp-remote", "https://mcp.tavily.com/mcp/?tavilyApiKey=your-tavily-api-key"]
-include_tools = ["tavily_search"] # 仅使用 tavily_search 工具，如果不填，则默认可以使用该 MCP 服务的所有工具
+include_tools = ["tavily_search"] # 仅将 tavily_search 工具提供给 Worker，只添加需要用到的工具，节约上下文占用。如果不填，则默认将所有工具提供给 Worker。
 
 # 使用 streamable_http 方式调用 tavily
 [mcp_servers.tavily_streamable_http]

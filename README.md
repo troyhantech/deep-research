@@ -143,7 +143,7 @@ enabled = false
 type = "stdio"
 command = "npx"
 args = ["-y", "mcp-remote", "https://mcp.tavily.com/mcp/?tavilyApiKey=your-tavily-api-key"]
-include_tools = ["tavily_search"]
+include_tools = ["tavily_search"] # Only provide the tavily_search tool to Worker, add only the tools that need to be used to save context usage. If left empty, all tools will be provided to Worker by default.
 
 # use streamable_http transport
 [mcp_servers.tavily_streamable_http]
