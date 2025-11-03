@@ -327,8 +327,9 @@ A: No, the author only tests with Python 3.10+, but it should work with 3.8+ as 
 
 ## 💡 Short-term Plan
 
-1. Implement streaming output reports for faster response times.
-2. Output token consumption data.
+- [ ] Implement streaming output of the execution process and report for faster response.
+- [ ] Output the consumed token data.
+- [ ] Combine [echarts](https://echarts.apache.org/) to generate interactive charts, making the report more visually engaging.
 
 ## License
 
