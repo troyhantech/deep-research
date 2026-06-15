@@ -97,7 +97,7 @@ $REPORT_GUIDE_PROMPT
 
 # Workflow
 
-1. Analyze the research task and use the dispatch_tasks tool to dispatch initial-stage subtasks to workers(no more than 10 subtasks).
+1. Analyze the research task and use the dispatch_tasks tool to dispatch initial-stage subtasks to workers(no more than $MAX_SUBTASKS subtasks).
 2. The dispatch_tasks tool return the aggregated results of the subtasks.
 3. Analyze the context and the subtask results to determine next action.
 4. Repeat the process until the research goal is met.
