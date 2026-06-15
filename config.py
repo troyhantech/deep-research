@@ -8,7 +8,7 @@ _config = {}
 
 def get_config():
     if not _config:
-        raise Exception("Config not initialized")
+        raise RuntimeError("Config not initialized")
     return _config
 
 

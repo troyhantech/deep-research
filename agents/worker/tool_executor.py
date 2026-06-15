@@ -4,6 +4,7 @@ from mcp import ClientSession
 from agents.worker.schema import Status, State
 from agents.response import Response
 from agents.reporter.agent import generate_report
+from agents.tool_content_parser import ToolUse
 
 
 class ToolExecuteResult:
@@ -12,10 +13,6 @@ class ToolExecuteResult:
         content: str = "",
     ):
         self.content: str = content
-
-
-from agents.worker.schema import State
-from agents.tool_content_parser import ToolUse
 
 
 def tool_use_title_generator(tool: ToolUse) -> str:
@@ -63,9 +60,9 @@ async def execute_tool_inner(
 
             try:
                 arguments = json.loads(arguments)
-            except Exception as e:
+            except json.JSONDecodeError as e:
                 logging.warning(
-                    f"arguments is not a valid json string, arguments: {arguments}, error: {e}"
+                    f"arguments is not a valid json string: {e}"
                 )
                 state_updates["status"] = Status.INVALID_TOOL_USE
                 tool_execute_result.content = f"[Error] arguments is not a valid json string, arguments: {arguments}, error: {e}"
@@ -110,7 +107,8 @@ async def execute_tool_inner(
                 while root_error.__cause__:
                     root_error = root_error.__cause__
                 logging.error(
-                    f"call {server_name} tool {tool_name} error: {e}, root_error: {root_error}"
+                    f"call {server_name} tool {tool_name} error: {e}, root_error: {root_error}",
+                    exc_info=True,
                 )
                 tool_execute_result.content = f"[Error] call {server_name} tool {tool_name} error: {e}, root_error: {root_error}"
                 state_updates["status"] = Status.INVALID_TOOL_USE

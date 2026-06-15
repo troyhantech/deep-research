@@ -29,7 +29,7 @@ Please generate a report based on the following context information:
         )
         report = response.choices[0].message.content
     except Exception as e:
-        logging.error(f"failed to call reasoning model: {e}")
+        logging.error(f"failed to call reasoning model: {e}", exc_info=True)
         report = Response.failedToCallModel(str(e))
 
     return report

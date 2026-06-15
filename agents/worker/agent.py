@@ -58,7 +58,7 @@ async def reasoning_node(state: State) -> State:
             )
         )
     except Exception as e:
-        logging.error(f"failed to call reasoning model: {e}, task: {task}")
+        logging.error(f"failed to call reasoning model: {e}, task: {task}", exc_info=True)
         messages.append(HumanMessage(content=Response.failedToCallModel(str(e))))
 
     return {

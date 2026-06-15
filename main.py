@@ -1,7 +1,6 @@
 import logging
 import argparse
 import asyncio
-import argparse
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware

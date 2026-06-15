@@ -64,7 +64,7 @@ class McpHub:
                 logging.info(f"Connecting MCP server {name}...")
                 await self._connect_to_server(name, config)
             except Exception as e:
-                raise Exception(f"Failed to connect to MCP server {name}: {e}")
+                raise Exception(f"Failed to connect to MCP server {name}: {e}") from e
             logging.info(f"Connected to MCP server {name} successfully!")
 
     async def _connect_to_server(self, name: str, config: McpServerConfig):
@@ -89,7 +89,7 @@ class McpHub:
             if connection:
                 connection.server.status = McpServerStatus.DISCONNECTED
                 connection.server.error = str(e)
-            raise e
+            raise
 
     async def list_tools(self, server_name) -> list[McpTool]:
         try:
@@ -120,13 +120,13 @@ class McpHub:
 
             return tools
         except Exception as e:
-            raise Exception(f"fetch tools list for {server_name} failed: {e}")
+            raise Exception(f"fetch tools list for {server_name} failed: {e}") from e
 
     async def get_servers(self) -> list[McpServer]:
         if len(self.mcp_server_configs) == 0:
             return []
         if not self.initialized:
-            raise Exception("MCP servers not initialized")
+            raise RuntimeError("MCP servers not initialized")
         return [connection.server for connection in self.connections.values()]
 
 

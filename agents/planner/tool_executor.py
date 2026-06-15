@@ -1,8 +1,9 @@
 from agents.planner.schema import Status, State
 from agents.response import Response
 from agents.worker.external import call_workers
-import logging
 from agents.reporter.agent import generate_report
+from agents.tool_content_parser import ToolUse
+import logging
 
 
 class ToolExecuteResult:
@@ -11,10 +12,6 @@ class ToolExecuteResult:
         content: str = "",
     ):
         self.content: str = content
-
-
-from agents.planner.schema import State
-from agents.tool_content_parser import ToolUse
 
 
 def tool_use_title_generator(tool: ToolUse) -> str:
@@ -59,7 +56,7 @@ async def execute_tool_inner(
             try:
                 workers_result = await call_workers(subtasks, config)
             except Exception as e:
-                logging.error(f"failed to call workers: {e}")
+                logging.error(f"failed to call workers: {e}", exc_info=True)
                 state_updates["status"] = Status.INVALID_TOOL_USE
                 tool_execute_result.content = (
                     "[Error] Unknown runtime error in tool operation."
